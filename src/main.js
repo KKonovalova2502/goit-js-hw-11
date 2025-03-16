@@ -6,7 +6,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-import { fetchImages } from './js/pixabay-ap';
+import { fetchImages } from './js/pixabay-api';
 import { renderGallery } from './js/render-functions';
 
 const refs = {
