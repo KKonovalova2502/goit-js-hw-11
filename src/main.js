@@ -3,11 +3,12 @@ import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-
 import { fetchImages } from './js/pixabay-api';
-import { renderGallery } from './js/render-functions';
+import {
+  renderGallery,
+  initializeLightbox,
+  refreshLightbox,
+} from './js/render-functions';
 
 const refs = {
   form: document.querySelector('.form'),
@@ -16,18 +17,14 @@ const refs = {
   loader: document.querySelector('.loader'),
 };
 
-let lightbox = new SimpleLightbox('.gallery a', {
-  captions: true,
-  captionSelector: 'img',
-  captionType: 'attr',
-  captionsData: 'alt',
-  captionPosition: 'bottom',
-  captionDelay: 250,
-});
+initializeLightbox('.gallery a');
 
 refs.form.addEventListener('submit', event => {
   event.preventDefault();
   const userRequest = refs.input.value.trim();
+
+  refs.gallery.innerHTML = '';
+
   if (userRequest === '') {
     iziToast.error({
       title: 'Error:',
@@ -43,7 +40,7 @@ refs.form.addEventListener('submit', event => {
     .then(images => {
       if (images) {
         renderGallery(refs.gallery, images);
-        lightbox.refresh();
+        refreshLightbox();
       }
     })
     .catch(error => {
@@ -51,7 +48,6 @@ refs.form.addEventListener('submit', event => {
     })
     .finally(() => {
       refs.loader.hidden = true;
+      refs.form.reset();
     });
-
-  refs.form.reset();
 });

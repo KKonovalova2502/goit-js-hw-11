@@ -1,3 +1,25 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
+let lightbox = null;
+
+export function initializeLightbox(selector) {
+  lightbox = new SimpleLightbox(selector, {
+    captions: true,
+    captionSelector: 'img',
+    captionType: 'attr',
+    captionsData: 'alt',
+    captionPosition: 'bottom',
+    captionDelay: 250,
+  });
+}
+
+export function refreshLightbox() {
+  if (lightbox) {
+    lightbox.refresh();
+  }
+}
+
 export function renderGallery(container, images) {
   container.innerHTML = '';
 
